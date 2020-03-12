@@ -38,30 +38,63 @@ private:
 	T* data;
 	T* top;
 	T* tail;
-pubclic:
-	MyCycleQueue(int size = 0)
+	bool isFull;
+public:
+	MyCycleQueue(int size = 5)
 	{
 		data = new T[size];
 		top = nullptr;
 		tail = nullptr;
+		isFull = false;
 	}
 
 	void push(T elem)
 	{
-
+		if (isFull)
+		{
+			cout << "Queue is full!";
+			return;
+		}
+		if (top == nullptr)
+		{
+			top = &data[1];
+			tail = &data[0];
+			*top = elem;
+		}
+		if (top == tail)
+			isFull = true;
 	}
 
+	T pop()
+	{
+		if (!isFull && tail == top)
+		{
+			cout << "Queue is empty!";
+			throw("error");
+		}
+		T temp = *tail;
+		tail--;
+		isFull = false;
+		return temp;
+	}
 };
 
 int main()
 {
-	MyQueue<int> test;
+	/*MyQueue<int> test;
 	test.push(1);
 	test.push(2);
 	test.push(3);
 	cout << test.pop();
 	cout << test.pop();
-	cout << test.pop();
-	//test.push(4);
+	cout << test.pop();*/
+
+	MyCycleQueue<int> test;
+	test.push(1);
+	test.push(2);
+	test.push(3);
+	test.push(4);
+	test.push(5);
+	//test.push(6);
 	//cout << test.pop();
 }
